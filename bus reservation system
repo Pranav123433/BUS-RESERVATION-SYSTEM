@@ -1,0 +1,213 @@
+//MY 1ST PROJECT WITH MY CAPTAIN AADHAR BHATNAGAR SIR
+
+#include<iostream>
+#include<conio.h>
+#include<windows.h>
+#include<stdlib.h>
+#include<string.h>
+
+
+using namespace std;
+
+//Function to make a rectangle type structure for the heading "MY CAPTAIN BUS STATION"
+void rectangle()
+{
+    system("cls");
+    int i;
+    cout<<"\n"<<"\t\t\t\t\t";
+    for(i=0;i<=30;i++)
+        {
+            cout<<".";
+        }
+    cout<<"\n";
+    cout<<"\t\t\t\t\t";
+    for(i=0;i<=30;i++)
+        {
+            if(i==0||i==9)
+            cout<<".";
+            else
+            {
+                if(i==3)
+                cout<<" MYCAPTAIN BUS STATION";
+                else
+                    cout<<" ";
+            }
+        }
+   cout<<"\n"<<"\t\t\t\t\t";
+    for(i=0;i<=30;i++)
+        {
+            cout<<".";
+        }
+}
+
+
+//Function to implement some sound effects
+void sound()
+{
+    cout<<"\t\t\t\t SERVERS ARE BEING LOADED, PLEASE WAIT !";
+    Beep(1500,1000);Beep(1500,1000);Beep(1500,1000);Beep(1500,1000);Beep(1500,1000);Beep(1500,1000);Beep(1500,1000);Beep(1500,1000);
+    cout<<"\n\t\t\t\t\tSUCCESSFULLY CONNECTED";
+    Beep(100,3000);
+}
+
+
+
+void installbusinformation(int *busno1,string *driver1,string *from1,string *to1,string *arrival1,string *departure1 )
+{
+    int i;     //initially we have no buses so you need to install bus first
+    cout<<"\n";
+    i=0;
+    while((*(busno1+i))!=0)
+        i++;
+    cout<<"Enter the bus driver name: ";
+    cin>>*(driver1+i);
+    cout<<"Enter the starting location: ";
+    cin>>*(from1+i);
+    cout<<"Enter the arriving location: ";
+    cin>>*(to1+i);
+    cout<<"Enter arrival time: ";
+    cin>>*(arrival1+i);
+    cout<<"Enter departure time: ";
+    cin>>*(departure1+i);
+    *(busno1+i)=1;
+    cout<<"\nBUS ADDED SUCCESSFULLY\n\n";
+
+}
+
+void reservation(int *busno1,string *driver1,string *from1,string *to1,string *arrival1,string *departure1,int (*matrix)[35],string (*listofnames1)[35])
+{
+
+    int i=0;
+    if((*(busno1+0))==0)
+      {
+          cout<<"\nWE HAVE NO BUSES AVAILABLE WITH US";
+          return;
+      }
+    cout<<"\nBuses available are:\n";
+    while((*(busno1+i))!=0)
+    {
+        cout<<"\nBUS"<<i+1<<"\n";
+        cout<<"\nBus driver name:" <<*(driver1+i);
+        cout<<"\nStarting location: "<<*(from1+i);
+        cout<<"\nArriving location: "<<*(to1+i);
+        cout<<"\nArrival time: "<<*(arrival1+i);
+        cout<<"\nDeparture time: "<<*(departure1+i);
+        i++;
+    }
+    int c=i;int choice;int k;
+    cout<<"\nPlease select the bus no which you want to choose: "; cin>>choice;
+    if(choice<=c&&choice>0)
+    {
+        cout<<"\nSeats available in the bus "<<choice<<" are seat number: ";
+        for(k=0;k<35;k++)
+        {
+         if((*(matrix + (choice-1)) + k)!=0)
+                cout<<k+1<<",";
+        }
+         int sno;
+         cout<<"\nSelect a seat number: ";
+         cin>>sno;
+
+         if(*(*(matrix + (choice-1)) + (sno-1))==0)
+          {
+              string name;
+              cout<<"\nEnter your name: ";
+              cin>>name;
+              listofnames1[choice-1][sno-1]=name;
+              *(*(matrix + (choice-1)) + (sno-1))=1;
+              cout<<"\nYOUR BOOKING IS SUCCESSFUL!!!\n";
+          }
+        else
+            cout<<"\nYou entered wrong seat number";
+    }
+    else
+        { cout<<"\nBUS "<<choice<<" DOES NOT EXISTS";
+        }
+
+
+}
+
+void showreservationinformation(int *busno1,string *driver1,string *from1,string *to1,string *arrival1,string *departure1,int (*matrix)[35],string (*listofnames1)[35])
+{
+    int i=0;
+    if((*(busno1+0))==0)
+      {
+          cout<<"\nWE HAVE NO BUSES AVAILABLE WITH US";
+          return;
+      }
+    cout<<"\nBuses available are:\n";
+    while((*(busno1+i))!=0)
+    {
+        cout<<"\n\nBUS"<<i+1<<"\n";
+        cout<<"\nBus driver name:" <<*(driver1+i);
+        cout<<"\nStarting location: "<<*(from1+i);
+        cout<<"\nArriving location: "<<*(to1+i);
+        cout<<"\nArrival time: "<<*(arrival1+i);
+        cout<<"\nDeparture time: "<<*(departure1+i);
+        int k;
+
+        for(k=0;k<35;k++)
+        {
+         cout<<"\nSeat number "<<k+1<<" is booked by "<<listofnames1[i][k];
+        }
+
+        i++;
+    }
+
+}
+
+void busesavailable(int *busno1,string *driver1,string *from1,string *to1,string *arrival1,string *departure1,int (*matrix)[35],string (*listofnames1)[35])
+{
+
+    int i=0;
+    if((*(busno1+0))==0)
+      {
+          cout<<"\nWE HAVE NO BUSES AVAILABLE WITH US";
+          return;
+      }
+
+      while(((*(busno1+i))!=0)&&(listofnames1[i][34]=="none")) //i just checked wether a bus exist and its last seast 35 must be booked by none so that it means the seat is available and hence that bus is available for booking. I assumed that the bus seat 35 will be booked at last which is practically not possible. I could have used a for loop for checking of "none" in the array of strings but i did not had time to implement that code.""SORRY""
+    {
+        cout<<"\n\nBUS "<<i+1<<" is available\n";
+        i++;
+    }
+}
+int main()
+{
+ system("Color B5");//change background color
+
+ sound();//just to make program more interesting by using beep function
+
+ rectangle();//To make rectangle type design
+
+ int choice;
+ int busno[100]={0};//Maximum 100 buses data can be stored
+ int seat[100][35]={0};//100 buses with 35 seats in each bus
+ string driver[100];// store 100 driver names as maximum buses that can be fed into the system are 100
+ string from[100];//starting location
+ string to[100];//ending location
+ string arrival[100];//arrival time
+ string departure[100];//departure time
+ //string passenger[100];
+
+ //initialized with none as in starting no one would have booked the bus
+ string listofnames[100][35]={"none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none","none",};
+
+ while(1)//an infinite loop because if we exit from this loop and run program the previously stored data is erased.
+ {
+ cout<<"\n\nPress 1 to install bus information\nPress 2 for reservation\nPress 3 to see reservation information check\nPress 4 to check buses available\n\n";
+ cin>>choice;
+
+ switch(choice)
+ {
+     case 1: installbusinformation(busno,driver,from,to,arrival,departure);break;
+     case 2: reservation(busno,driver,from,to,arrival,departure,seat,listofnames);break;
+     case 3: showreservationinformation(busno,driver,from,to,arrival,departure,seat,listofnames);break;
+     case 4: busesavailable(busno,driver,from,to,arrival,departure,seat,listofnames);break;
+     default: cout<<"\nYou pressed a wrong button";
+ }
+ }
+
+
+return 0;
+}
